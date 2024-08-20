@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Ex001 from './Ex001';
+//import Ex001 from './Ex001';
+import Form2 from './atividades_formativas/Form2';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Ex001 />
+    <Form2 />
   </React.StrictMode>
 );
 
