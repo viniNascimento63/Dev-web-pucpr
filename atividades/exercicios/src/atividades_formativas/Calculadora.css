@@ -1,5 +1,10 @@
 button {
+    font-size: 2em;
+}
 
+.container {
+    display: flex;
+    justify-content: center;
 }
 
 .calculadora {
@@ -7,11 +12,10 @@ button {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, 1fr);
     background-color: #F1F1F1;
-    border-radius: 15px;
     text-align: center;
     font-weight: 600;
-    max-width: 540px;
-    min-height: 600px;
+    width: 35vw;
+    height: 100vh;
 }
 
 .res {
@@ -20,6 +24,7 @@ button {
     background-color: #636463;
     text-align: end;
     color: white;
+    font-size: 3em;
 }
 
 .clear {
