@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-//import Ex001 from './Ex001';
-import Form2 from './atividades_formativas/Form2';
+//import Ex004 from './Ex004';
+import Somativa1 from './somativas/Somativa1';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Form2 />
+    <Somativa1 />
   </React.StrictMode>
 );
 
