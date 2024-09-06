@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-//import Ex004 from './Ex004';
-import Somativa1 from './somativas/Somativa1';
+import Ex004 from './Ex004';
+//import Somativa1 from './somativas/Somativa1';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Somativa1 />
+    <Ex004 />
   </React.StrictMode>
 );
 
