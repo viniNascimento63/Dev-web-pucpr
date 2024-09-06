@@ -1,6 +1,7 @@
+import React from 'react';
 import Rotas from './rotas';
 
-function Ex004() {
+const Ex004 = () => {
     return (
         <div>
             <Rotas />
