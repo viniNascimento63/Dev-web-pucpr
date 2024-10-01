@@ -7,40 +7,61 @@ class Home extends Component {
         this.state = {
             nome: "",
             sobrenome: "",
-            usuarios: [] // Estado para armazenar os dados dos usuários
+            dt_nascimento: "",
+            email: "",
+            senha: "",
+            usuarios: [], // Estado para armazenar os dados dos usuários
+            mensagem: "", // Estado para armazenar mensagens de sucesso ou erro
         };
-        this.gravar = this.gravar.bind(this);
-        this.exibir = this.exibir.bind(this);
+        this.cadastrar = this.cadastrar.bind(this);
     }
 
-    async gravar() {
-        await firebase.firestore().collection("usuario").doc("1").set({
-            nome: this.state.nome,
-            sobrenome: this.state.sobrenome
-        });
-    }
+    cadastrar() {
+        const { nome, sobrenome, dt_nascimento, email, senha } = this.state;
 
-    exibir() {
-        firebase.firestore().collection("usuario").get().then((retorno) => {
-            let usuarios = [];
-            retorno.forEach((item) => {
-                const dados = item.data();
-                usuarios.push({
-                    nome: dados.nome,
-                    sobrenome: dados.sobrenome
+        // Cadastrar usuário no Firebase Authentication
+        firebase.auth().createUserWithEmailAndPassword(email, senha)
+            .then((userCredential) => {
+                const userId = userCredential.user.uid;
+
+                // Salvar dados adicionais no Firestore
+                firebase.firestore().collection('usuarios').doc(userId).set({
+                    nome: nome,
+                    sobrenome: sobrenome,
+                    dt_nascimento: dt_nascimento,
+                    email: email,
+                })
+                .then(() => {
+                    this.setState({ mensagem: "Usuário criado com sucesso!" });
+                    console.log('Dados do usuário salvos no Firestore.');
+                })
+                .catch((error) => {
+                    this.setState({ mensagem: `Erro ao salvar no Firestore: ${error.message}` });
+                    console.error('Erro ao salvar no Firestore:', error);
                 });
+            })
+            .catch((error) => {
+                this.setState({ mensagem: `Erro ao criar usuário: ${error.message}` });
+                console.error('Erro:', error);
             });
-            this.setState({ usuarios }); // Atualiza o estado com os dados dos usuários
-        });
     }
 
     render() {
         return (
             <div>
-                <h1>Home</h1>
-                <a href="/contato"><button>Contato</button></a>
-                <a href="/sobre"><button>Sobre</button></a>
+                <h1>Cadastro</h1>
+                <a href="/login"><button>Login</button></a>
                 <br />
+                <input
+                    type='email'
+                    placeholder='Email'
+                    onChange={(e) => this.setState({ email: e.target.value })}
+                />
+                <input
+                    type='password'
+                    placeholder='Senha'
+                    onChange={(e) => this.setState({ senha: e.target.value })}
+                /><br />
                 <input
                     type='text'
                     placeholder='Nome'
@@ -50,18 +71,15 @@ class Home extends Component {
                     type='text'
                     placeholder='Sobrenome'
                     onChange={(e) => this.setState({ sobrenome: e.target.value })}
-                />
-                <button onClick={this.gravar}>Gravar</button>
-                <button onClick={this.exibir}>Exibir dados</button>
+                /><br />
+                <input
+                    type="date"
+                    onChange={(e) => this.setState({ dt_nascimento: e.target.value })}
+                /><br />
+                <button onClick={this.cadastrar}>Cadastrar</button>
 
-                {/* Exibe os nomes e sobrenomes na tela */}
-                <ul>
-                    {this.state.usuarios.map((usuario, index) => (
-                        <li key={index}>
-                            {usuario.nome} {usuario.sobrenome}
-                        </li>
-                    ))}
-                </ul>
+                {/* Exibe a mensagem de sucesso ou erro */}
+                {this.state.mensagem && <p>{this.state.mensagem}</p>}
             </div>
         );
     }
